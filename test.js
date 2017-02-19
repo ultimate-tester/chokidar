@@ -17,7 +17,7 @@ function getFixturePath (subPath) {
     'test-fixtures',
     subdir && subdir.toString() || '',
     subPath
-  );
+  ).replace('\\', '/');
 }
 
 var watcher,
@@ -32,7 +32,7 @@ var watcher,
     win32Polling,
     win32Polling010,
     slowerDelay,
-    testCount = 1,
+    testCount = 3,
     mochaIt = it;
 
 
@@ -531,7 +531,7 @@ function runTests(baseopts) {
           });
         });
     });
-    it('should respect negated glob patterns', function(done) {
+    it.only('should respect negated glob patterns', function(done) {
       var spy = sinon.spy();
       var testPath = getFixturePath('*');
       var negatedPath = '!' + getFixturePath('*a*.txt');
