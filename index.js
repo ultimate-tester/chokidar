@@ -1,6 +1,5 @@
 'use strict';
 var EventEmitter = require('events').EventEmitter;
-var fs = require('fs');
 var sysPath = require('path');
 var asyncEach = require('async-each');
 var anymatch = require('anymatch');
@@ -8,6 +7,7 @@ var globParent = require('glob-parent');
 var isGlob = require('is-glob');
 var isAbsolute = require('path-is-absolute');
 var inherits = require('inherits');
+var fs = null;
 
 var NodeFsHandler = require('./lib/nodefs-handler');
 var FsEventsHandler = require('./lib/fsevents-handler');
@@ -77,6 +77,8 @@ function FSWatcher(_opts) {
   if (undef('interval')) opts.interval = 100;
   if (undef('binaryInterval')) opts.binaryInterval = 300;
   if (undef('disableGlobbing')) opts.disableGlobbing = false;
+  fs = undef('filesystem') ? require('fs') : opts.filesystem;
+  
   this.enableBinaryInterval = opts.binaryInterval !== opts.interval;
 
   // Enable fsevents on OS X when polling isn't explicitly enabled.
